@@ -1,0 +1,10 @@
+1678157225124	Delete element
+1678170613137	Rename package 'service'
+1678172314767	Delete elements
+1678172328116	Delete element
+1678172372729	Extract interface 'BoardService1'
+1678172390741	Delete element
+1678172398685	Rename type 'BoardService1'
+1678172440022	Extract interface 'UserService'
+1678172460194	Move compilation unit
+1678239193336	Copy packages

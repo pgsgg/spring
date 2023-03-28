@@ -1,0 +1,45 @@
+package com.ezen.view;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.ezen.biz.dto.AdminVO;
+import com.ezen.biz.service.AdminService;
+
+@Controller
+@SessionAttributes("admin")
+public class AdminController {
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@GetMapping("/admin_login_form")
+	public String adminLoginView() {
+		
+		return "admin/main";
+	}
+	
+	@PostMapping("/admin_login")
+	public String adminLogin(AdminVO vo,Model model) {
+		int result = adminService.adminCheck(vo);
+		
+		if(result ==1) {
+			model.addAttribute("admin", adminService.getAdmin(vo.getId()));
+			
+			return "redirect:admin_product_list";
+		} else {
+			
+			if(result == 0) {
+				model.addAttribute("message", "비밀번호를 확인해 주세요");
+			} else {
+				model.addAttribute("message", "아이디를 확인해 주세요");
+			}
+			
+			return "admin/main";
+		}
+	}
+}

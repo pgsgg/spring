@@ -1,0 +1,19 @@
+package com.ezen.biz.common;
+
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+
+@Aspect
+public class PointcutCommon {
+	
+	@Pointcut("executaion(*com.ezen.biz..*Impl.*(..))")
+	public void allPointcut() {
+		
+	}
+	
+	@Pointcut("executaion(* com.ezen.biz..*Impl.get*(..))")
+	public void getPointcut() {
+		
+	}
+	
+}

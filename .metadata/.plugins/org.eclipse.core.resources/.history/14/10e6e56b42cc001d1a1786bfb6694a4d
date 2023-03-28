@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+package com.ezen.biz.service;
+
+import java.util.List;
+
+import com.ezen.biz.dto.ProductCommentVO;
+
+import utils.Criteria;
+
+/**
+ * @author 602-26
+ *
+ */
+public class CommentServiceImpl implements CommentService {
+
+	@Override
+	public int getCountCommentList(int pseq) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<ProductCommentVO> getCommentListWithPaging(Criteria criteria, int pseq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

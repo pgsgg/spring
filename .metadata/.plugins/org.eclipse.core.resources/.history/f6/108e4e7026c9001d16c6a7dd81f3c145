@@ -1,0 +1,40 @@
+package com.ezen.biz.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ezen.biz.dto.ProductVO;
+
+@Service("productService")
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private com.ezen.biz.dao.ProductService productDAO;
+	
+	@Override
+	public ProductVO getProduct(ProductVO vo) {
+		
+		return productDAO.getProduct(vo);
+	}
+
+	@Override
+	public List<ProductVO> getProductListByKind(String kind) {
+		
+		return productDAO.getProductListByKind(kind);
+	}
+
+	@Override
+	public List<ProductVO> getNewProductList() {
+		
+		return productDAO.getNewProductList();
+	}
+
+	@Override
+	public List<ProductVO> getBestProductList() {
+		
+		return productDAO.getBestProductList();
+	}
+
+}

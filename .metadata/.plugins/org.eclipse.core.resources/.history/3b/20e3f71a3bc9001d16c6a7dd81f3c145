@@ -1,0 +1,65 @@
+package com.ezen.view;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.ezen.biz.dto.AdminVO;
+import com.ezen.biz.dto.ProductVO;
+import com.ezen.biz.service.AdminService;
+import com.ezen.biz.service.ProductService;
+
+@Controller
+@SessionAttributes("admin")
+public class AdminController {
+	
+	@Autowired
+	private AdminService adminService;
+	@Autowired
+	private ProductService productService;
+	
+	@GetMapping("/admin_login_form")
+	public String adminLoginView() {
+		
+		return "admin/main";
+	}
+	
+	@PostMapping("/admin_login")
+	public String adminLogin(AdminVO vo,Model model) {
+		int result = adminService.adminCheck(vo);
+		
+		if(result ==1) {
+			model.addAttribute("admin", adminService.getAdmin(vo.getId()));
+			
+			return "redirect:admin_product_list";
+		} else {
+			
+			if(result == 0) {
+				model.addAttribute("message", "비밀번호를 확인해 주세요");
+			} else {
+				model.addAttribute("message", "아이디를 확인해 주세요");
+			}
+			
+			return "admin/main";
+		}
+	}
+	
+	@GetMapping("/admin_product_list")
+	public String adminProductList(@RequestParam(value = "key", defaultValue = "") String name ,Model model) {
+		List<ProductVO> productList =  productService.getListProduct(name);
+		model.addAttribute("productList", productList);
+		model.addAttribute("productListSize",productList.size());
+		return "admin/product/productList";
+	}
+	
+	@PostMapping("/admin_product_write_form")
+	public String adminProductWriteView(Model model) {
+		return "admin/product/productWrite";
+	}
+}

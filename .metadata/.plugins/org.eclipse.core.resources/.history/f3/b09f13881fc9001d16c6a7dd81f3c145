@@ -1,0 +1,28 @@
+package com.ezen.view;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.ezen.biz.dto.AdminVO;
+import com.ezen.biz.service.adminService;
+
+@Controller
+public class AdminController {
+	
+	@Autowired
+	private adminService adminService;
+	
+	@GetMapping("/admin_login_form")
+	public String adminLoginView() {
+		
+		return "admin/main";
+	}
+	
+	@PostMapping("/admin_login")
+	public String adminLogin(AdminVO vo,Model model) {
+		adminSe
+	}
+}

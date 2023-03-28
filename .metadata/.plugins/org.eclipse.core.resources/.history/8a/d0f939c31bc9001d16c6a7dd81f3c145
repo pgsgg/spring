@@ -1,0 +1,21 @@
+package com.ezen.biz.service;
+
+import org.springframework.stereotype.Service;
+
+import com.ezen.biz.dto.AdminVO;
+
+@Service("adminService")
+public class AdminServiceImpl implements adminService {
+
+	@Override
+	public int adminCheck(String id) {
+		return ;
+	}
+
+	@Override
+	public AdminVO getAdmin(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

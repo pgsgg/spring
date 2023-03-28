@@ -1,0 +1,39 @@
+package com.ezen.biz.service;
+
+import java.util.List;
+
+import com.ezen.biz.dto.OrderVO;
+
+public class OrderServiceImpl implements OrderService {
+
+	@Override
+	public int selectMaxOseq() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void insertOrder(OrderVO vo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void insertOrderDetail(OrderVO vo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<OrderVO> listOrderById(OrderVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Integer> selectSeqOrdering(OrderVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

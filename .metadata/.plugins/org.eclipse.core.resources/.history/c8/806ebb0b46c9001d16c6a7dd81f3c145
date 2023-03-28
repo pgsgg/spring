@@ -1,0 +1,66 @@
+package utils;
+
+/*
+ * 화면에 표시할 페이지 버튼 정보
+ */
+public class PageMaker {
+	private Criteria criteria;
+	private int totalCount; //조회된 전체 게시글의 수
+	private int startPage; // 화면에 표시할 시작 페이지 번호
+	private int endPage; //화면에 표시할 끝 페이지 번호
+	private boolean prev; //이전 버튼 유무
+	private boolean next; //다음 버튼 유무
+	private int cntPageNum = 10; //한 화면에 표시할 페이지 버튼의 수
+	private int realEndPage; //실제 끝 페이지 번호
+	
+	public Criteria getCriteria() {
+		return criteria;
+	}
+	public void setCriteria(Criteria criteria) {
+		this.criteria = criteria;
+	}
+	public int getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+	public int getStartPage() {
+		return startPage;
+	}
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	public int getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+	public boolean isPrev() {
+		return prev;
+	}
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+	public boolean isNext() {
+		return next;
+	}
+	public void setNext(boolean next) {
+		this.next = next;
+	}
+	public int getCntPageNum() {
+		return cntPageNum;
+	}
+	public void setCntPageNum(int cntPageNum) {
+		this.cntPageNum = cntPageNum;
+	}
+	public int getRealEndPage() {
+		return realEndPage;
+	}
+	public void setRealEndPage(int realEndPage) {
+		this.realEndPage = realEndPage;
+	}
+	
+	
+}

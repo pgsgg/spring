@@ -1,0 +1,19 @@
+package com.ezen.biz.service;
+
+import com.ezen.biz.dto.AdminVO;
+
+public class AdminServiceImpl implements adminService {
+
+	@Override
+	public String adminCheck(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AdminVO getAdmin(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,27 @@
+package com.ezen.biz.service;
+
+import java.util.List;
+
+import com.ezen.biz.dto.QnaVO;
+
+public class QnaServiceImpl implements QnaService {
+
+	@Override
+	public List<QnaVO> listQna(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QnaVO getQna(int qseq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertQna(QnaVO vo) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

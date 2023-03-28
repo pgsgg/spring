@@ -1,0 +1,27 @@
+package com.ezen.biz.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository("orderDAO")
+public class OrderDAO {
+	
+	@Autowired
+	private SqlSessionTemplate mybatis;
+	
+	public int selectMaxOseq() {
+		
+		return mybatis.selectOne("OrderMapper.selectMaxOseq");
+	} 
+	
+	public void insertOrder(String id) {
+		
+		mybatis.insert("OrderMapper.insertOrder", id);
+	}
+	
+	public void insertOrderDetail(int oseq,int pseq,int quantity) {
+		
+		mybatis.insert("OrderMapper.insertOrderDetail", oseq,pseq,quantity);
+	}
+}

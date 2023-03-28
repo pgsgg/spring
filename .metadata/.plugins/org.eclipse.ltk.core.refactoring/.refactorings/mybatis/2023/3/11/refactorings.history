@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;config&apos; to &apos;ShopMall/src/main/resources&apos;&#x0D;&#x0A;- Original project: &apos;mybatis&apos;&#x0D;&#x0A;- Destination element: &apos;ShopMall/src/main/resources&apos;&#x0D;&#x0A;- Original element: &apos;mybatis/src/main/resources/config&apos;" description="Copy package" destination="=ShopMall/src\/main\/resources" element1="/src\/main\/resources&lt;config" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1678932343743" version="1.0"/>
+</session>

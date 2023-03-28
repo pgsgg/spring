@@ -1,0 +1,11 @@
+package com.ezen.biz.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class SalesQuantity {
+	private String pname;
+	private int quantity;
+}

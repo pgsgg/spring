@@ -1,0 +1,28 @@
+/**
+ * 
+ */
+package com.ezen.biz.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.ezen.biz.dto.ProductCommentVO;
+
+import utils.Criteria;
+
+@Service("commentService")
+public class CommentServiceImpl implements CommentService {
+
+	@Override
+	public int getCountCommentList(int pseq) {
+		return ;
+	}
+
+	@Override
+	public List<ProductCommentVO> getCommentListWithPaging(Criteria criteria, int pseq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

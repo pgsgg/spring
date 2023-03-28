@@ -1,0 +1,15 @@
+package com.ezen.biz.dao;
+
+import java.util.List;
+
+import com.ezen.biz.dto.ProductCommentVO;
+
+import utils.Criteria;
+
+public interface CommentService {
+
+	int countCommentList(int pseq);
+
+	List<ProductCommentVO> commentListWithPaging(Criteria criteria, int pseq);
+
+}

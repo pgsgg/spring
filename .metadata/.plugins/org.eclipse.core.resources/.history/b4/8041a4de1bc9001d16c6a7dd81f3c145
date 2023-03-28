@@ -1,0 +1,33 @@
+package com.ezen.biz.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ezen.biz.dao.AdminDAO;
+import com.ezen.biz.dto.AdminVO;
+
+@Service("adminService")
+public class AdminServiceImpl implements adminService {
+
+	@Autowired
+	private AdminDAO adminDAO;
+
+	@Override
+	public int adminCheck(String id, String pwd) {
+		String pwdCheck = adminDAO.adminCheck(id);
+		if (pwdCheck == null) {
+			return -1;
+		} else if (!pwd.equals(pwdCheck)) {
+			return 0;
+		} else if (pwd.equals(pwdCheck)) {
+			return 1;
+		}
+	}
+
+	@Override
+	public AdminVO getAdmin(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

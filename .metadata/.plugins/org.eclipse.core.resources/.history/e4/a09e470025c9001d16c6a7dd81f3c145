@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AdminMapper">
+	<select id="adminCheck" resultType="String">
+		SELECT pwd FROM admin WHERE id = #{id}
+	</select>
+	
+	<select id="getAdmin" resultType="admin">
+		SELECT * FROM admin WHERE id = #{id}
+	</select>
+	
+	<select id="countProductList" resultType="int">
+		SELECT COUNT(*) FROM product WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="listProduct" resultType="product">
+		SELECT pseq,regdate,name,price1,price2,useyn,bestyn
+		 FROM product WHERE name LIKE '%'||#{name}||'%' 
+		  ORDER BY pseq DESC
+	</select>
+	
+	<insert id="insertProduct">
+		INSERT INTO product (pseq,kind,name,price1,price2,price3,content,image) 
+		 VALUES (product_seq.NEXTVAL,#{kind},#{name},#{price1},#{price2},#{price3},#{content},#{image})
+	</insert>
+</mapper>

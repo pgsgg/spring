@@ -1,0 +1,19 @@
+1678330698571	Extract interface 'RoomService'
+1678330731958	Move compilation unit
+1678331924076	Extract interface 'RoomService'
+1678331935615	Move compilation unit
+1678334268359	Move compilation unit
+1678334271987	Delete element
+1678334278453	Delete element
+1678334569825	Rename local variable 'equip'
+1678334912502	Delete elements
+1678334948655	Delete element
+1678334962143	Extract interface 'RoomService'
+1678335004647	Move compilation unit
+1678335040934	Delete element
+1678335306719	Extract interface 'EquipmentService'
+1678335313423	Move compilation unit
+1678342821360	Rename field 'dao'
+1678345135973	Copy file
+1678346629116	Copy packages
+1678408595060	Copy file

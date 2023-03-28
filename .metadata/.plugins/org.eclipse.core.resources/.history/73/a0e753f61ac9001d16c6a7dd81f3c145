@@ -1,0 +1,27 @@
+package com.ezen.biz.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.ezen.biz.dto.AdminVO;
+
+@Repository("adminDAO")
+public class AdminDAO {
+	
+	@Autowired
+	private SqlSessionTemplate mybatis;
+	
+	public int adminCheck(String id) {
+		String pwd = mybatis.selectOne("AdminMapper.adminCheck", id);
+		if(pwd == null) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+	
+	public AdminVO getAdmin(String id) {
+		return mybatis.selectOne("AdminMapper.getAdmin", id);
+	}
+}

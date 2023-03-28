@@ -1,0 +1,25 @@
+package com.ezen.biz.dao;
+
+import java.util.List;
+
+import com.ezen.biz.dto.ProductVO;
+
+public interface ProductService {
+
+	ProductVO getProduct(ProductVO vo);
+
+	List<ProductVO> getProductListByKind(String kind);
+
+	List<ProductVO> getNewProductList();
+
+	List<ProductVO> getBestProductList();
+
+	int countProductList(String name);
+
+	List<ProductVO> listProduct(String name);
+
+	void insertProduct(ProductVO vo);
+
+	void updateProduct(ProductVO vo);
+
+}

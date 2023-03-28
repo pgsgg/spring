@@ -1,0 +1,221 @@
+package com.ezen.view;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.ezen.biz.dto.CartVO;
+import com.ezen.biz.dto.MemberVO;
+import com.ezen.biz.dto.OrderVO;
+import com.ezen.biz.service.CartService;
+import com.ezen.biz.service.OrderService;
+
+@Controller
+public class MypageController {
+
+	@Autowired
+	private CartService cartService;
+	@Autowired
+	private OrderService orderService;
+
+	@PostMapping("/cart_insert")
+	public String insertCart(CartVO vo, HttpSession session) {
+		// 세션에 사용자 정보가 저정되어 있는지 확인
+
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if (loginUser == null) {// 로그인이 안된경우
+			return "member/login";
+		} else {
+			vo.setId(loginUser.getId());
+			cartService.insertCart(vo);
+			return "redirect:cart_list";
+		}
+	}
+
+	@GetMapping("/cart_list")
+	public String listCart(HttpSession session, Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			return "member/login";
+		} else {
+			List<CartVO> cartList = cartService.getListCart(loginUser.getId());
+			int totalAmount = 0;
+			for (CartVO vo : cartList) {
+				totalAmount += vo.getQuantity() * vo.getPrice2();
+			}
+
+			model.addAttribute("totalPrice", totalAmount);
+			model.addAttribute("cartList", cartList);
+			return "mypage/cartList";
+		}
+	}
+
+	@PostMapping("/cart_delete")
+	public String deleteCart(@RequestParam(value = "cseq") int[] cseq) {
+
+		for (int i = 0; i < cseq.length; i++) {
+			System.out.println(cseq[i] + ",");
+			cartService.deleteCart(cseq[i]);
+		}
+
+		return "redirect:cart_list";
+	}
+
+	@PostMapping("/order_insert")
+	public String insertOrder(HttpSession session, OrderVO order, Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			return "member/login";
+		} else {
+			order.setId(loginUser.getId());
+			int oseq = orderService.insertOrder(order);
+
+			model.addAttribute("oseq", oseq);
+			return "redirect:order_list";
+		}
+	}
+
+	@GetMapping("/order_list")
+	public String listOrder(OrderVO order, HttpSession session, Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		order.setId(loginUser.getId());
+		order.setResult("1");
+		List<OrderVO> orderList = orderService.getListOrderById(order);
+		// 주문총액 계산
+		int totalPrice = 0;
+		for (OrderVO vo : orderList) {
+			totalPrice += vo.getPrice2() * vo.getQuantity();
+		}
+
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("totalPrice", totalPrice);
+
+		return "mypage/orderList";
+	}
+
+	@GetMapping("/mypage")
+	public String myPageView(HttpSession session, OrderVO vo, Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			return "member/login";
+		} else {
+			// (1) 사용자의 진행중인 주문번호 목록 조회
+			vo.setId(loginUser.getId());
+			vo.setResult("1"); // 처리결과 : 미처리
+			List<Integer> oseqList = orderService.getSeqOrdering(vo);
+			List<OrderVO> summaryList = new ArrayList<OrderVO>(); // 주문요약 정보 저장
+			// (2) 위의 각 주문번호에 대해 주문정보 조회 및 요약정보 생성
+			for (int oseq : oseqList) {
+				OrderVO order = new OrderVO();
+
+				// 각 주문번호의 주문내역 조회
+				order.setId(loginUser.getId());
+				order.setResult("1");
+				order.setOseq(oseq);
+
+				List<OrderVO> orderList = orderService.getListOrderById(order);
+				// 각 주문요약 정보 생성
+				OrderVO summary = new OrderVO();
+				summary.setOseq(orderList.get(0).getOseq());
+				summary.setIndate(orderList.get(0).getIndate());
+
+				if (orderList.size() >= 2) {
+					summary.setPname(orderList.get(0).getPname() + "외 " + (orderList.size() - 1) + "건");
+				} else {
+					summary.setPname(orderList.get(0).getPname());
+				}
+
+				// 각 주문별 합계 금ㅇㄱ
+				int amount = 0;
+				for (int i = 0; i < orderList.size(); i++) {
+					amount += orderList.get(i).getQuantity() * orderList.get(i).getPrice2();
+				}
+				summary.setPrice2(amount);
+
+				summaryList.add(summary);
+			}
+			// (3) 화면에 전달할 데이터 저장 및 화면 표시
+			model.addAttribute("orderList", summaryList);
+			model.addAttribute("title", "진행 중인 주문내역");
+
+		}
+
+		return "mypage/mypage";
+	}
+	
+	@GetMapping("/order_detail")
+	public String orderDetail(OrderVO vo,HttpSession session,Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		//(1) 주문번호에 대한 주문목록 조회
+		vo.setId(loginUser.getId());
+		vo.setResult("1");
+		List<OrderVO> orderList = orderService.getListOrderById(vo);
+		//(2) 주문자 정보 생성 
+		OrderVO orderDetail = new OrderVO();
+		orderDetail.setOseq(orderList.get(0).getOseq());
+		orderDetail.setIndate(orderList.get(0).getIndate());
+		orderDetail.setMname(orderList.get(0).getMname());
+		// (3)금액 총합계 구하기
+		int totalPrice = 0;
+		for(OrderVO order : orderList) {
+			totalPrice += order.getQuantity() * order.getPrice2();
+		}
+		//(4) 화면에 출력할 정보 저장
+		model.addAttribute("title", "My page(주문 상제 정보)");
+		model.addAttribute("orderList",orderList);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("orderDetail",orderDetail);
+		return "mypage/orderDetail";
+	}
+	
+	@GetMapping("/order_all")
+	public String orderAll(OrderVO vo,HttpSession session,Model model) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		if (loginUser == null) {
+			return "member/login";
+		} else {
+			vo.setId(loginUser.getId());
+			vo.setResult("");
+			List<Integer> oseqList = orderService.getSeqOrdering(vo);
+			List<OrderVO> summaryList = new ArrayList<OrderVO>();
+			int totalPrice = 0;
+			for(int oseq : oseqList) {
+				OrderVO order = new OrderVO();
+				order.setId(loginUser.getId());
+				order.setOseq(oseq);
+				order.setResult("");
+				List<OrderVO> orderList = orderService.getListOrderById(order);
+				
+				OrderVO summary = new OrderVO();
+				summary.setIndate(orderList.get(0).getIndate());
+				summary.setMname(orderList.get(0).getMname());
+				summary.setOseq(oseq);
+				if(orderList.size() >= 2) {
+					summary.setPname(orderList.get(0).getPname() + "외 " + (orderList.size()-1) + "개");
+				} else {
+					summary.setPname(orderList.get(0).getPname());
+				}
+				for(OrderVO orderPrice : orderList) {
+					totalPrice += orderPrice.getQuantity() * orderPrice.getPrice2();
+				}
+				
+				summary.setPrice2(totalPrice);
+				summaryList.add(summary);
+			}
+			model.addAttribute("title", "Mypage(총주문내역)");
+			model.addAttribute("orderList",summaryList);
+		}
+		
+		return "mypage/mypage";
+	}
+}
